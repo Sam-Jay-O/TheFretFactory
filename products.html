@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="P.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Fret Factory</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        /* Curtain Menu Styles */
+        .curtain-menu {
+            height: 35%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .curtain-menu a {
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 19px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .curtain-menu a:hover {
+            color: #ffffff;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Nav Bar -->
+    <nav>
+        <div class="sandwich-icon-area" onclick="openNav()">
+            <p>&#9776;</p>
+        </div>
+    
+        <div class="logo-area">
+            <a href="index.html">
+                <img src="IMAGES/LOGO.png" alt="Logo" class="logo">
+            </a>
+        </div>
+    
+        <ul class="nav-list"> 
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="products.html">PRODUCTS</a></li>
+            <li><a href="contact-us.html">CONTACT US</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="wishlist.html">WISHLIST</a></li>
+        </ul>
+    
+        <div class="cart">
+            <a href="checkout.html">
+                <button class="p-0 bg-transparent border-none outline-none cursor-pointer" style="position: relative; width: 50px; height: 50px;">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                    </svg>
+                    <span id="cart-count" style="display: none; position: absolute; top: 0; right: 0; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 12px;">0</span>
+                </button>
+            </a>
+        </div>
+        
+    </nav>
+    
+    <!-- Curtain Dropdown Menu -->
+    <div class="curtain-menu" id="myNav">
+        <p class="close-icon" onclick="closeNav()"> &times; </p>
+        <div class="overlay-content">
+            <a href="index.html">HOME</a>
+            <a href="products.html">PRODUCTS</a>
+            <a href="contact-us.html">CONTACT US</a>
+            <a href="about-us.html">ABOUT US</a>
+            <a href="wishlist.html">WISHLIST</a>
+        </div>
+    </div>
+    
+    <div class="product-container">
+        <h2>Our Products</h2> 
+        <div class="product-box">
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product1.html">
+                    <img src="IMAGES/bluey.jpg" alt="Blue iBanez">
+                </a>
+                <button class="add-to-cart" data-product-id="1">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product2.html">
+                    <img src="IMAGES/RedBlackGuitar.jpg" alt="Red & Black Les Paul">
+                </a>
+                <button class="add-to-cart" data-product-id="2">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product3.html">
+                    <img src="IMAGES/redstrat.jpg" alt="Red Stratocaster">
+                </a>
+                <button class="add-to-cart" data-product-id="3">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product4.html">
+                    <img src="IMAGES/hallowbody.png" alt="Hollow Body">
+                </a>
+                <button class="add-to-cart" data-product-id="4">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product-5.html">
+                    <img src="IMAGES/yamaha.jpg" alt="Yamaha Acoustic">
+                </a>
+                <button class="add-to-cart" data-product-id="5">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <button class="wish-list">Wishlist</button>
+                <a href="link-to-product-6.html">
+                    <img src="IMAGES/acoustic2.jpg" alt="Beginner Acoustic Guitar">
+                </a>
+                <button class="add-to-cart" data-product-id="6">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <p id="More Info"></p>
+    
+    <!-- Footer Area --> 
+    <footer> 
+        <p>
+            <a href="https://www.eit.ac.nz/programmes/bachelor-of-computing-systems-bcs/" target="_blank" rel="noopener noreferrer">
+                ITWD5.130 Website Development<br> 
+                School of Computing, EIT.
+                <br>
+            </a>
+            <h2 style="font-size: 12px;">Created By: Sam-Jay Owers</h2>
+        </p> 
+    </footer>
+
+    <script>
+        // Function to open the curtain menu
+        function openNav() {
+            document.getElementById("myNav").style.width = "100%";
+        }
+    
+        // Function to close the curtain menu
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0";
+        }
+    
+        $(document).ready(function() {
+            $('.add-to-cart').click(function() {
+                const productId = $(this).data('product-id');
+                const productElement = $(this).closest('.product-item');
+                const productName = productElement.find('img').attr('alt');
+                const productImage = productElement.find('img').attr('src');
+                
+                addToCart(productId, productName, productImage);
+                alert(`${productName} added to cart!`);
+            });
+    
+            $('.wish-list').click(function() {
+                const productId = $(this).siblings('.add-to-cart').data('product-id');
+                addToWishlist(productId);
+            });
+    
+            updateCartCount();
+        });
+    
+        function addToCart(productId, productName, productImage) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ id: productId, name: productName, image: productImage });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+    
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = cart.length;
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCount > 0) {
+                cartCountElement.style.display = 'block';
+                cartCountElement.textContent = cartCount;
+            } else {
+                cartCountElement.style.display = 'none';
+            }
+        }
+    
+        function addToWishlist(productId) {
+            let wishlist = getWishlist();
+            if (!wishlist.includes(productId)) {
+                wishlist.push(productId);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                alert(`Product ${productId} added to wishlist!`);
+            } else {
+                alert(`Product ${productId} is already in your wishlist!`);
+            }
+        }
+    
+        function getWishlist() {
+            return JSON.parse(localStorage.getItem('wishlist')) || [];
+        }
+    </script>
+    
+</body>
+</html>

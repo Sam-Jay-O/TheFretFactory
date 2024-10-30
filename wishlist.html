@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Fret Factory - Wishlist</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* Curtain Menu Styles */
+        .curtain-menu {
+            height: 35%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .curtain-menu a {
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 19px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .curtain-menu a:hover {
+            color: #ffffff;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .wishlist-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        .wishlist-item {
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+        }
+
+        .wishlist-item img {
+            width: 100%;
+            height: 200px; 
+            object-fit: cover; 
+        }
+
+        .remove-button, .add-to-cart-button {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .remove-button:hover, .add-to-cart-button:hover {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="sandwich-icon-area" onclick="openNav()">
+            <p>&#9776;</p>
+        </div>
+    
+        <div class="logo-area">
+            <a href="index.html">
+                <img src="IMAGES/LOGO.png" alt="Logo" class="logo">
+            </a>
+        </div>
+    
+        <ul class="nav-list"> 
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="products.html">PRODUCTS</a></li>
+            <li><a href="contact-us.html">CONTACT US</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="wishlist.html">WISHLIST</a></li>
+        </ul>
+    
+        <div class="cart">
+            <button class="p-0 bg-transparent border-none outline-none cursor-pointer" onclick="opencart()" style="width: 50px; height: 50px;">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Curtain Dropdown Menu -->
+    <div class="curtain-menu" id="myNav">
+        <p class="close-icon" onclick="closeNav()"> &times; </p>
+        <div class="overlay-content">
+            <a href="index.html">HOME</a>
+            <a href="products.html">PRODUCTS</a>
+            <a href="contact-us.html">CONTACT US</a>
+            <a href="about-us.html">ABOUT US</a>
+            <a href="wishlist.html">WISHLIST</a>
+        </div>
+    </div>
+
+    <div class="wishlist-container" id="wishlistContainer"></div>
+
+    <script>
+        // Open curtain menu
+        function openNav() {
+            document.getElementById("myNav").style.width = "100%";
+        }
+
+        // Close curtain menu
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0";
+        }
+
+        // Navigate to checkout
+        function opencart() {
+            window.location.href = 'checkout.html';
+        }
+
+        // Retrieve wishlist from localStorage
+        function getWishlist() {
+            return JSON.parse(localStorage.getItem('wishlist')) || [];
+        }
+
+        // Retrieve product info
+        function getProductInfo(productId) {
+            const products = {
+                1: { name: "Blue iBanez", image: "IMAGES/bluey.jpg" },
+                2: { name: "Red & Black Les Paul", image: "IMAGES/RedBlackGuitar.jpg" },
+                3: { name: "Red Stratocaster", image: "IMAGES/redstrat.jpg" },
+                4: { name: "Hollow Body", image: "IMAGES/hallowbody.png" },
+                5: { name: "Yamaha Acoustic", image: "IMAGES/yamaha.jpg" },
+                6: { name: "Beginner Acoustic Guitar", image: "IMAGES/acoustic2.jpg" }
+            };
+            return products[productId] || { name: "Unknown Product", image: "" };
+        }
+
+        // Display wishlist items
+        function displayWishlist() {
+            const wishlist = getWishlist();
+            const wishlistContainer = document.getElementById('wishlistContainer');
+            wishlistContainer.innerHTML = '';
+
+            if (wishlist.length === 0) {
+                wishlistContainer.innerHTML = `
+                    <div class="empty-message">
+                        <p>Your wishlist is empty.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            wishlist.forEach(productId => {
+                const productInfo = getProductInfo(productId);
+                const productHTML = `
+                    <div class="wishlist-item">
+                        <img src="${productInfo.image}" alt="${productInfo.name}">
+                        <h3>${productInfo.name}</h3>
+                        <button class="add-to-cart-button" onclick="addToCart(${productId})">Add to Cart</button>
+                        <button class="remove-button" onclick="removeFromWishlist(${productId})">Remove from Wishlist</button>
+                    </div>
+                `;
+                wishlistContainer.innerHTML += productHTML;
+            });
+        }
+
+        // Function to add product to cart and store it in localStorage
+        function addToCart(productId) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const productInfo = getProductInfo(productId);
+            cart.push({ id: productId, ...productInfo });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${productInfo.name} added to cart!`);
+        }
+
+        // Remove product from wishlist
+        function removeFromWishlist(productId) {
+            let wishlist = getWishlist();
+            wishlist = wishlist.filter(id => id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            displayWishlist();
+        }
+
+        window.onload = displayWishlist;
+    </script>
+</body>
+</html>

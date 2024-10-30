@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Fret Factory - Checkout</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* Curtain Menu Styles */
+        .curtain-menu {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .curtain-menu a {
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .curtain-menu a:hover {
+            color: #f1f1f1;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        .cart-item {
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+        }
+
+        .cart-item img {
+            width: 100%;
+            height: 200px; 
+            object-fit: cover; 
+        }
+
+        .cart-item h3 {
+            color: white;
+            text-shadow: 2px 2px 0px black, 
+                         1px 1px 0px black,
+                         2px 1px 0px black,
+                         1px 2px 0px black;
+            margin: 10px 0;
+        }
+
+        .remove-button, .checkout-button {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .checkout-button {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Nav Bar -->
+    <nav>
+        <div class="sandwich-icon-area" onclick="openNav()">
+            <p>&#9776;</p>
+        </div>
+    
+        <div class="logo-area">
+            <a href="index.html">
+                <img src="IMAGES/LOGO.png" alt="Logo" class="logo">
+            </a>
+        </div>
+    
+        <!-- Navigation Bar -->
+        <ul class="nav-list"> 
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="products.html">PRODUCTS</a></li>
+            <li><a href="contact-us.html">CONTACT US</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="wishlist.html">WISHLIST</a></li>
+        </ul>
+    
+        <!-- Shopping Cart Icon -->
+        <div class="cart">
+            <a href="checkout.html">
+                <button class="p-0 bg-transparent border-none outline-none cursor-pointer" style="width: 50px; height: 50px;">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Curtain Dropdown Menu -->
+    <div class="curtain-menu" id="myNav">
+        <p class="close-icon" onclick="closeNav()"> &times; </p>
+        <div class="overlay-content">
+            <a href="index.html">HOME</a>
+            <a href="products.html">PRODUCTS</a>
+            <a href="contact-us.html">CONTACT US</a>
+            <a href="about-us.html">ABOUT US</a>
+            <a href="wishlist.html">WISHLIST</a>
+        </div>
+    </div>
+
+    <h2 style="text-shadow: 1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black;">Checkout</h2>
+
+    <div class="cart-container" id="cartContainer"></div>
+
+    <!-- Checkout Button -->
+    <div style="text-align: center;">
+        <button class="checkout-button" onclick="finalizePurchase()">Buy Now</button>
+    </div>
+
+    <p id="More Info"></p>
+    
+    <!-- Footer Area --> 
+    <footer> 
+        <p>
+            <a href="https://www.eit.ac.nz/programmes/bachelor-of-computing-systems-bcs/" target="_blank" rel="noopener noreferrer">
+                ITWD5.130 Website Development<br> 
+                School of Computing, EIT.
+                <br>
+            </a>
+            <h2 style="font-size: 12px;">Created By: Sam-Jay Owers</h2>
+        </p> 
+    </footer>
+
+    <script>
+        // Open curtain menu
+        function openNav() {
+            document.getElementById("myNav").style.width = "100%";
+        }
+
+        // Close curtain menu
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0";
+        }
+
+        // Retrieve cart from localStorage
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
+        // Remove product from cart
+        function removeFromCart(productId) {
+            let cart = getCart();
+            cart = cart.filter(product => product.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        // Display cart items
+        function displayCart() {
+            const cart = getCart();
+            const cartContainer = document.getElementById('cartContainer');
+            cartContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-message">
+                        <p>Your cart is empty.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cart.forEach(product => {
+                const productHTML = `
+                    <div class="cart-item">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <button class="remove-button" onclick="removeFromCart(${product.id})">Remove from Cart</button>
+                    </div>
+                `;
+                cartContainer.innerHTML += productHTML;
+            });
+        }
+
+        // Finalize purchase function
+        function finalizePurchase() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add items before checking out.");
+                return;
+            }
+            // Clear cart items from localStorage
+            localStorage.removeItem('cart');
+            displayCart(); // Refresh the cart display
+            alert("Thank you for your purchase! Your order has been successfully placed.");
+        }
+
+        window.onload = displayCart;
+    </script>
+</body>
+</html>

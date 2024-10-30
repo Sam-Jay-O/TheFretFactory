@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Fret Factory - About Us</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* Curtain Menu Styles */
+        .curtain-menu {
+            height: 35%;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .curtain-menu a {
+            padding: 8px 32px;
+            text-decoration: none;
+            font-size: 19px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .curtain-menu a:hover {
+            color: #ffffff;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Text Background Styles */
+        .text-background {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            z-index: 1;
+            position: relative;
+        }
+
+        .outlined-text {
+            color: white;
+            text-shadow: 2px 2px 0px black, 
+                         1px 1px 0px black,
+                         2px 1px 0px black,
+                         1px 2px 0px black;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Nav Bar -->
+    <nav>
+        <div class="sandwich-icon-area" onclick="openNav()">
+            <p>&#9776;</p>
+        </div>
+    
+        <div class="logo-area">
+            <a href="index.html">
+                <img src="IMAGES/LOGO.png" alt="Logo" class="logo">
+            </a>
+        </div>
+    
+        <ul class="nav-list"> 
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="products.html">PRODUCTS</a></li>
+            <li><a href="contact-us.html">CONTACT US</a></li>
+            <li><a href="about-us.html">ABOUT US</a></li>
+            <li><a href="wishlist.html">WISHLIST</a></li>
+        </ul>
+    
+        <div class="cart">
+            <button class="p-0 bg-transparent border-none outline-none cursor-pointer" onclick="opencart()" style="width: 50px; height: 50px;">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Curtain Dropdown Menu -->
+    <div class="curtain-menu" id="myNav">
+        <p class="close-icon" onclick="closeNav()"> &times; </p>
+        <div class="overlay-content">
+            <a href="index.html">HOME</a>
+            <a href="products.html">PRODUCTS</a>
+            <a href="contact-us.html">CONTACT US</a>
+            <a href="about-us.html">ABOUT US</a>
+            <a href="wishlist.html">WISHLIST</a>
+        </div>
+    </div>
+
+    <h2 style="color: rgb(255, 255, 255); text-shadow: 1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black; text-align: center;">About Us</h2>
+   
+    <div class="text-background">
+        <h2 class="outlined-text">
+            The Fret Factory prides itself on supplying quality guitars and accessories to artists and music lovers all over the world.
+            <br>
+            Guitars at The Fret Factory go through a setup before they are rolled out onto shelves for sale.
+            <br>
+            This ensures each guitar can be picked up and immediately played with no extra steps.
+            <br>
+            Our refund policy includes a free 6-month warranty period for all guitar purchases made through The Fret Factory.
+            <br>
+        </h2>
+    </div>
+
+    <!-- Footer Area --> 
+    <footer> 
+        <p>
+            <a href="https://www.eit.ac.nz/programmes/bachelor-of-computing-systems-bcs/" target="_blank" rel="noopener noreferrer">
+                ITWD5.130 Website Development<br> 
+                School of Computing, EIT.
+                <br>
+            </a>
+            <h2 style="font-size: 12px;">Created By: Sam-Jay Owers</h2>
+        </p> 
+    </footer>
+
+    <script>
+        // Open the curtain menu
+        function openNav() {
+            document.getElementById("myNav").style.width = "100%";
+        }
+
+        // Close the curtain menu
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0";
+        }
+        
+        // Function to navigate to the checkout page
+        function opencart() {
+            window.location.href = 'checkout.html';
+        }
+    </script>
+</body>
+</html>
